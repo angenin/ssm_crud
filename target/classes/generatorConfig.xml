@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+    <!--导入属性配置-->
+    <properties resource="jdbcConfig.properties"/>
+
+    <!-- context 是逆向工程的主要配置信息 -->
+    <!-- id：名字，targetRuntime：设置生成的文件适用的mybatis版本 -->
+    <context id="mbg" targetRuntime="MyBatis3">
+
+        <!-- 生成注释为false 不生成为true 【不生成注释时会被重复写入导致报错】 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!--jdbc的数据库连接-->
+        <jdbcConnection connectionURL="${jdbc.jdbcUrl}"
+                        driverClass="${jdbc.driverClass}"
+                        userId="${jdbc.user}"
+                        password="${jdbc.password}"/>
+
+        <!--类型处理器，在数据库类型和java类型之间的转换控制-->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+<!--        指定javaBean生成的位置-->
+<!--        targetProject：为文件的硬盘路径  ./为当前工程下（也可以写绝对路径）-->
+        <javaModelGenerator targetPackage="com.angenin.crud.bean"
+                            targetProject="./src/main/java">
+            <!-- 是否允许子包 -->
+            <property name="enableSubPackages" value="true" />
+            <!-- 是否清理从数据库中查询出的字符串左右两边的空白字符 -->
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+<!--        指定sql映射文件生成的位置-->
+        <sqlMapGenerator targetPackage="mappers"
+                         targetProject="./src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+<!--        指定dao接口生成的位置，mapper接口-->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.angenin.crud.dao"
+                             targetProject="./src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+
+<!--        table指定每个表的生成策略-->
+<!--        tableName：要生成的表，domainObjectName：表生成对应类名-->
+        <table tableName="tbl_emp" domainObjectName="Employee"/>
+        <table tableName="tbl_dept" domainObjectName="Department"/>
+    </context>
+</generatorConfiguration>
